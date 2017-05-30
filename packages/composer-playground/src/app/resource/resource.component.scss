@@ -13,8 +13,21 @@ resource-modal {
     min-height: 415px;
   }
 
-  .resource-component {
+  .resource-form{
+    label.radio-label {
+          font-weight: bold;
 
+          &::before {
+            top: 8px;
+          }
+
+          &::after {
+            top: 13px;
+          }
+        }
+  }
+  .resource-component {
+    flex:1;
     padding: $space-medium;
 
     .resource-bound {

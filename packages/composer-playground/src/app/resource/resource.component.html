@@ -8,8 +8,44 @@
     </button>
   </div>
   <section class="modal-body">
-    <h2>In registry: <b>{{registryID}}</b></h2>
+
     <section class="resource-container">
+      <section class="resource-component">
+        <div><p class="resource-preview-text">Test Form</p></div>
+        <div class="resource-form">
+          <form [formGroup]="resourceForm" (ngSubmit)="onSubmit()" *ngIf="!complexDataStructure">
+            <input hidden name="$class" type="text" formControlName="$class">
+            <div class="resource-field" *ngFor="let property of resourceProperties;">
+              <h3>{{property.name}}</h3>
+
+              <input formControlName="{{property.name}}" type="input" name="{{property.name}}" *ngIf="property.type === 'String' || property.type === 'DateTime' || property.ast.type === 'RelationshipDeclaration'">
+              <input formControlName="{{property.name}}" type="number" name="{{property.name}}" *ngIf="property.type === 'Integer' || property.type === 'Long'">
+              <input formControlName="{{property.name}}" type="number" step="any" name="{{property.name}}" *ngIf="property.type === 'Double'">
+              <input formControlName="{{property.name}}" type="checkbox" (ngValue)="$event.target.checked ? true : false" *ngIf="property.type === 'Boolean'">
+              <select *ngIf="property.isTypeEnum() === true && property.options" formControlName="{{property.name}}">
+                <option *ngFor="let option of property.options" (ngValue)="option.name">{{option.name}}</option>
+              </select>
+
+              <div *ngIf="property.ast.type !== 'RelationshipDeclaration' && property.nestedOptions">
+                <div *ngFor="let option of property.nestedOptions; let i=index">
+                  {{option.name}}
+                  <div [formGroupName]="property.name">
+                    <input formControlName="{{option.name}}" type="input" name="{{option.name}}" *ngIf="option.type === 'String' || option.type === 'DateTime' || option.ast.type === 'RelationshipDeclaration'">
+                    <input formControlName="{{option.name}}" type="number" name="{{option.name}}" *ngIf="option.type === 'Integer' || option.type === 'Long'">
+                    <input formControlName="{{option.name}}" type="number" step="any" name="{{option.name}}" *ngIf="option.type === 'Double'">
+                    <input formControlName="{{option.name}}" type="checkbox" (ngValue)="$event.target.checked ? true : false" *ngIf="option.type === 'Boolean'">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit">Submit Form</button>
+          </form>
+          <div *ngIf="complexDataStructure">
+            <h2>Complex Data Type</h2>
+            <p>We're not going to create a form</p>
+          </div>
+        </div>
+      </section>
       <section class="resource-component">
       <div>
         <p class="resource-preview-text">JSON Data Preview</p>

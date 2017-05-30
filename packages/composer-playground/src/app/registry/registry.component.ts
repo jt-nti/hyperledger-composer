@@ -83,6 +83,8 @@ export class RegistryComponent {
         modalRef.result.then(() => {
             // refresh current resource list
             this.loadResources();
+        }).catch(()=>{
+            // This just means we've closed the modal
         });
     }
 
