@@ -9,6 +9,7 @@
     "sourceMap": true,
     "noEmitHelpers": true,
     "strictNullChecks": false,
+    "noStrictGenericChecks": true,
     "baseUrl": "./src",
     "paths": {
     },
