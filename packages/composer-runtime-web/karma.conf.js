@@ -18,7 +18,7 @@
 // Generated on Fri Nov 18 2016 16:08:11 GMT+0000 (GMT)
 
 module.exports = function(config) {
-    config.set({
+    let configuration = {
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: '',
@@ -62,7 +62,7 @@ module.exports = function(config) {
 
         // level of logging
         // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-        logLevel: config.LOG_INFO,
+        logLevel: config.LOG_DEBUG,
 
 
         // enable / disable watching file and executing tests whenever any file changes
@@ -73,6 +73,12 @@ module.exports = function(config) {
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['Chrome'],
 
+        customLaunchers: {
+            ChromeCiBuild: {
+                base: 'Chrome',
+                flags: ['--no-sandbox','--disable-gpu']
+            }
+        },
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
@@ -97,5 +103,13 @@ module.exports = function(config) {
                 }
             }
         }
-    });
+    };
+
+    if (process.env.TRAVIS){
+        configuration.browsers = [
+            'ChromeCiBuild'
+        ];
+    }
+
+    config.set(configuration);
 };

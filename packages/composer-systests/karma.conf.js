@@ -21,7 +21,7 @@ const processGlobal = require.resolve('browserfs/dist/shims/process.js');
 const browserfsPath = require.resolve('browserfs');
 
 module.exports = function(config) {
-    config.set({
+    let configuration = {
 
         // base path that will be used to resolve all patterns (eg. files, exclude)
         basePath: '',
@@ -76,6 +76,12 @@ module.exports = function(config) {
         // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
         browsers: ['Chrome'],
 
+        customLaunchers: {
+            ChromeCiBuild: {
+                base: 'Chrome',
+                flags: ['--no-sandbox','--disable-gpu']
+            }
+        },
 
         // Continuous Integration mode
         // if true, Karma captures browsers, runs the tests and exits
@@ -117,5 +123,13 @@ module.exports = function(config) {
             suppressSkipped: true, // do not print information about skipped tests
             showSpecTiming: false // print the time elapsed for each spec
         }
-    });
+    };
+
+    if (process.env.TRAVIS){
+        configuration.browsers = [
+            'ChromeCiBuild'
+        ];
+    }
+
+    config.set(configuration);
 };
