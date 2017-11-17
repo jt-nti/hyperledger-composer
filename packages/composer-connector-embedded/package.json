@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "npm run test",
     "pretest": "npm run licchk",
     "licchk": "license-check",
     "postlicchk": "npm run doc",
@@ -53,7 +54,8 @@
   "dependencies": {
     "composer-common": "0.18.0",
     "composer-runtime": "0.18.0",
-    "composer-runtime-embedded": "0.18.0"
+    "composer-runtime-embedded": "0.18.0",
+    "uuid": "3.0.1"
   },
   "nyc": {
     "exclude": [

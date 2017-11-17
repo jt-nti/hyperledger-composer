@@ -38,6 +38,7 @@ deploy:
 cache:
   directories:
     - node_modules
+    - common/temp
 sudo: required
 notifications:
   pushover:

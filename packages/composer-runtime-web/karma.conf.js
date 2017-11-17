@@ -29,6 +29,17 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai'],
 
 
+        // plugins to register
+        plugins: [
+            'karma-browserify',
+            'karma-chai',
+            'karma-chrome-launcher',
+            'karma-coverage',
+            'karma-mocha',
+            'karma-spec-reporter'
+        ],
+
+
         // list of files / patterns to load in the browser
         files: [
             require.resolve('babel-polyfill/browser.js'),

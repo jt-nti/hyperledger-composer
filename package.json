@@ -13,10 +13,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "postinstall": "npm run pkgcheck && npm run bootstrap",
+    "postinstall": "npm run pkgcheck",
     "repoclean": "lerna clean",
-    "bootstrap": "lerna bootstrap",
-    "pretest": "npm run depcheck",
     "test": "lerna run test",
     "scanlicenses": "./scripts/scan-all-licenses.sh",
     "pkgcheck": "node ./scripts/pkgcheck.js",

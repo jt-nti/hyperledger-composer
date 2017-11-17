@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "npm run test",
     "pretest": "npm run licchk",
     "licchk": "license-check",
     "postlicchk": "npm run doc",
@@ -56,6 +57,7 @@
   },
   "dependencies": {
    "composer-common": "0.18.0",
+   "homedir": "0.6.0",
    "mkdirp": "0.5.1",
    "rimraf": "2.5.4"
   },

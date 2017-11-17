@@ -9,6 +9,7 @@
   "main": "index.js",
   "typings": "index.d.ts",
   "scripts": {
+    "build": "npm run test",
     "prepublish": "node ./scripts/systemmodelgen.js && pegjs ./lib/introspect/parser.pegjs && pegjs ./lib/acl/parser.pegjs && pegjs --allowed-start-rules Start,SelectStatement ./lib/query/parser.pegjs && node ./scripts/tsgen.js",
     "pretest": "npm run prepublish && npm run lint",
     "lint": "eslint .",
@@ -43,13 +44,15 @@
     "eslint": "3.17.1",
     "folder-zip-sync": "1.0.4",
     "jsdoc": "3.5.5",
+    "jsrsasign": "8.0.3",
     "license-check": "1.1.5",
     "mocha": "3.4.2",
     "mockery": "2.0.0",
     "moxios": "0.4.0",
     "nyc": "11.1.0",
     "pegjs": "0.9.0",
-    "sinon": "2.3.8"
+    "sinon": "2.3.8",
+    "sinon-chai": "2.10.0"
   },
   "dependencies": {
     "acorn": "5.1.2",
@@ -85,7 +88,8 @@
     "thenify-all": "1.6.0",
     "uri-js": "3.0.2",
     "uuid": "3.0.1",
-    "winston": "2.3.1"
+    "winston": "2.3.1",
+    "yargs": "10.0.3"
   },
   "license-check-config": {
     "src": [

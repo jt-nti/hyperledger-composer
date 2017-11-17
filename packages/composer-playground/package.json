@@ -41,10 +41,10 @@
         "insert_license": false
     },
     "scripts": {
+        "build": "npm run test",
         "build:dev": "webpack --config config/webpack.dev.js --progress --profile",
         "build:docker": "npm run build:prod && docker build -t angular2-webpack-start:latest .",
         "build:prod": "webpack --config config/webpack.prod.js  --progress --profile --bail",
-        "build": "npm run build:dev",
         "ci": "npm run lint && npm test && npm run e2e",
         "clean:dist": "npm run rimraf -- dist",
         "clean:install": "npm set progress=false && npm install",
@@ -103,6 +103,7 @@
         "express": "4.15.2",
         "is-docker": "1.1.0",
         "opener": "1.4.2",
+        "uuid": "3.0.1",
         "yargs": "10.0.3"
     },
     "devDependencies": {
@@ -238,6 +239,7 @@
         "webpack-md5-hash": "0.0.5",
         "webpack-merge": "4.1.0",
         "webpack-sources": "1.0.1",
+        "xhr": "2.4.0",
         "zone.js": "0.8.5"
     }
 }

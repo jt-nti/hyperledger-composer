@@ -5,6 +5,7 @@
   "bin": "bin/cmd.js",
   "main": "lib/report.js",
   "scripts": {
+    "build": "npm run test",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "postlint": "npm run licchk",
@@ -32,7 +33,8 @@
     "license-check": "1.1.5",
     "mocha": "3.4.2",
     "nyc": "11.1.0",
-    "sinon": "2.3.8"
+    "sinon": "2.3.8",
+    "sinon-chai": "2.10.0"
   },
   "dependencies": {
     "moment": "2.19.3",

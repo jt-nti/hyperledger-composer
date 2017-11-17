@@ -33,6 +33,9 @@ build/Release
 node_modules
 jspm_packages
 
+# Ignore Rush temporary files
+/common/temp/** 
+
 # Optional npm cache directory
 .npm
 

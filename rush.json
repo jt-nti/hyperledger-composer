@@ -1,0 +1,112 @@
+{
+  "rushVersion": "4.2.5",
+  "npmVersion": "5.5.1",
+  "nodeSupportedVersionRange": ">=8.9.0 <9.0.0",
+
+  "projects": [
+    {
+      "packageName": "composer-admin",
+      "projectFolder": "packages/composer-admin"
+    },
+    {
+      "packageName": "composer-cli",
+      "projectFolder": "packages/composer-cli"
+    },
+    {
+      "packageName": "composer-client",
+      "projectFolder": "packages/composer-client"
+    },
+    {
+      "packageName": "composer-common",
+      "projectFolder": "packages/composer-common"
+    },
+    {
+      "packageName": "composer-connector-embedded",
+      "projectFolder": "packages/composer-connector-embedded"
+    },
+    {
+      "packageName": "composer-connector-hlfv1",
+      "projectFolder": "packages/composer-connector-hlfv1"
+    },
+    {
+      "packageName": "composer-connector-proxy",
+      "projectFolder": "packages/composer-connector-proxy"
+    },
+    {
+      "packageName": "composer-connector-server",
+      "projectFolder": "packages/composer-connector-server"
+    },
+    {
+      "packageName": "composer-connector-web",
+      "projectFolder": "packages/composer-connector-web"
+    },
+    {
+      "packageName": "composer-cucumber-steps",
+      "projectFolder": "packages/composer-cucumber-steps"
+    },
+    {
+      "packageName": "composer-playground",
+      "projectFolder": "packages/composer-playground"
+    },
+    {
+      "packageName": "composer-playground-api",
+      "projectFolder": "packages/composer-playground-api"
+    },
+    {
+      "packageName": "composer-report",
+      "projectFolder": "packages/composer-report"
+    },
+    {
+      "packageName": "composer-rest-server",
+      "projectFolder": "packages/composer-rest-server"
+    },
+    {
+      "packageName": "composer-runtime",
+      "projectFolder": "packages/composer-runtime"
+    },
+    {
+      "packageName": "composer-runtime-embedded",
+      "projectFolder": "packages/composer-runtime-embedded"
+    },
+    {
+      "packageName": "composer-runtime-hlfv1",
+      "projectFolder": "packages/composer-runtime-hlfv1"
+    },
+    {
+      "packageName": "composer-runtime-pouchdb",
+      "projectFolder": "packages/composer-runtime-pouchdb"
+    },
+    {
+      "packageName": "composer-runtime-web",
+      "projectFolder": "packages/composer-runtime-web"
+    },
+    {
+      "packageName": "composer-tests-functional",
+      "projectFolder": "packages/composer-tests-functional"
+    },
+    {
+      "packageName": "composer-tests-integration",
+      "projectFolder": "packages/composer-tests-integration"
+    },
+    {
+      "packageName": "composer-wallet-filesystem",
+      "projectFolder": "packages/composer-wallet-filesystem"
+    },
+    {
+      "packageName": "composer-wallet-inmemory",
+      "projectFolder": "packages/composer-wallet-inmemory"
+    },
+    {
+      "packageName": "composer-website",
+      "projectFolder": "packages/composer-website"
+    },
+    {
+      "packageName": "generator-hyperledger-composer",
+      "projectFolder": "packages/generator-hyperledger-composer"
+    },
+    {
+      "packageName": "loopback-connector-composer",
+      "projectFolder": "packages/loopback-connector-composer"
+    }
+  ]
+}

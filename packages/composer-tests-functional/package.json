@@ -9,6 +9,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "",
     "pretest": "npm run licchk",
     "licchk": "license-check",
     "postlicchk": "npm run lint",

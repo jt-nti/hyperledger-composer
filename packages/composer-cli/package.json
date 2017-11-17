@@ -11,6 +11,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "npm run test",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "postlint": "npm run licchk",
@@ -38,7 +39,8 @@
     "license-check": "1.1.5",
     "mocha": "3.4.2",
     "nyc": "11.1.0",
-    "sinon": "2.3.8"
+    "sinon": "2.3.8",
+    "sinon-chai": "2.10.0"
   },
   "dependencies": {
     "ajv": "6.1.1",
@@ -56,7 +58,7 @@
     "moment": "2.19.3",
     "node-report": "2.2.1",
     "npm-paths": "0.1.3",
-    "nunjucks": "3.0.0",
+    "nunjucks": "3.0.1",
     "ora": "1.2.0",
     "prettyjson": "1.2.1",
     "prompt": "1.0.0",

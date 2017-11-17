@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "build": "npm run test",
     "pretest": "npm run lint",
     "lint": "eslint .",
     "postlint": "npm run licchk",
@@ -41,7 +42,6 @@
     "eslint": "3.17.1",
     "jsdoc": "3.5.5",
     "license-check": "1.1.5",
-    "loopback": "2.35.0",
     "mocha": "3.4.2",
     "nyc": "11.1.0",
     "sinon": "2.3.8",

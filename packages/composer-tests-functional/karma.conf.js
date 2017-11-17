@@ -108,6 +108,8 @@ module.exports = function(config) {
                 ]
             },
             node: {
+                // TODO errrrrrr, fs? Really? TBC
+                fs: 'empty',
                 net: 'empty'
             }
         },

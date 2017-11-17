@@ -18,7 +18,7 @@ source ${DIR}/.travis/base.sh
 
 pip install --user linkchecker requests==2.9.2
 linkchecker --version
-npm install -g lerna@2 @alrra/travis-scripts asciify gnomon
+npm install -g lerna@2 @alrra/travis-scripts asciify gnomon @microsoft/rush
 
 # Abort the fv/integration if this is a merge build
 # Check for the FC_TASK that is set in travis.yml, also the pull request is false => merge build

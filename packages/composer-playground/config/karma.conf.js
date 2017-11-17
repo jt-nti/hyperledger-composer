@@ -34,6 +34,20 @@ module.exports = function(config) {
          */
         frameworks: ['jasmine', 'chai', 'sinon', 'sinon-chai'],
 
+        // plugins to register
+        plugins: [
+            'karma-chai',
+            'karma-chrome-launcher',
+            'karma-coverage',
+            'karma-jasmine',
+            'karma-mocha-reporter',
+            'karma-remap-coverage',
+            'karma-sinon',
+            'karma-sinon-chai',
+            'karma-sourcemap-loader',
+            'karma-webpack'
+        ],
+
         // list of files to exclude
         exclude: [],
 
