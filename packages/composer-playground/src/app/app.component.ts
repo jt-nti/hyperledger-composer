@@ -23,6 +23,8 @@ import { IdCard } from 'composer-common';
 /* tslint:disable-next-line:no-var-requires */
 const LZString = require('lz-string');
 
+declare var ga: Function;
+
 /*
  * App Component
  * Top Level Component
@@ -65,6 +67,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): Promise<void> {
+        // Grab GA ID from config service
+        ga('create', 'UA-91314349-3', 'auto');
+
+        // Set page/send pageview should be part of routing: issue 2779
+        ga('set', 'page', 'composer-playground.mybluemix.net');
+        ga('send', 'pageview');
+
         this.subs = [
             this.alertService.busyStatus$.subscribe((busyStatus) => {
                 this.onBusyStatus(busyStatus);
