@@ -14,18 +14,14 @@
 
 'use strict';
 
-const fssteps = require('./lib/fssteps');
-const clisteps = require('./lib/clisteps');
-const reststeps = require('./lib/reststeps');
-const hooks = require('./lib/hooks');
-const tutorialsteps = require('./lib/tutorialsteps');
-const generatorsteps = require('./lib/generatorsteps');
-
 module.exports = function () {
-    fssteps.call(this);
-    clisteps.call(this);
-    reststeps.call(this);
-    hooks.call(this);
-    tutorialsteps.call(this);
-    generatorsteps.call(this);
+
+    this.Given(/^I have the following (files|folders) available$/, function (type, table) {
+        return this.composer.ensureAvailable(table);
+    });
+
+    this.Then(/^The following (\d+)? ?files? should exist$/, function (count, table) {
+        return this.composer.checkFilesExist(count, table);
+    });
+
 };

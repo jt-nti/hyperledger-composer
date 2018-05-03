@@ -16,31 +16,31 @@
 Feature: Cli generate steps
 
     Scenario: Using the CLI, I can issue the command to generate doc for the empty network
-        Given I have the following folders
+        Given I have the following folders available
             | ../resources/sample-networks/empty-business-network |
-        And I run the following expected pass CLI command
+        And I run the following CLI command, which should pass
             """
-            composer archive create -t dir -a ./tmp/empty-business-network.bna -n ./resources/sample-networks/empty-business-network
+            composer archive create -t dir -a ./empty-business-network.bna -n ./empty-business-network
             """
         And The generated output is to be placed in
             """
-            tmp/empty-business-network-out
+            empty-business-network-out
             """
-        When I run the following expected pass CLI command
+        When I run the following CLI command, which should pass
             """
-            composer generator docs -a ./tmp/empty-business-network.bna -o tmp/empty-business-network-out
+            composer generator docs -a ./empty-business-network.bna -o ./empty-business-network-out
             """
         Then The stdout information should include text matching /Command succeeded/
-        And I have the following files
-            | ../tmp/empty-business-network-out/acls.html |
-            | ../tmp/empty-business-network-out/assets.html |
-            | ../tmp/empty-business-network-out/class.html |
-            | ../tmp/empty-business-network-out/enums.html |
-            | ../tmp/empty-business-network-out/events.html |
-            | ../tmp/empty-business-network-out/index.html |
-            | ../tmp/empty-business-network-out/participants.html |
-            | ../tmp/empty-business-network-out/queries.html |
-            | ../tmp/empty-business-network-out/transactions.html |
+        And The following files should exist
+            | empty-business-network-out/acls.html         |
+            | empty-business-network-out/assets.html       |
+            | empty-business-network-out/class.html        |
+            | empty-business-network-out/enums.html        |
+            | empty-business-network-out/events.html       |
+            | empty-business-network-out/index.html        |
+            | empty-business-network-out/participants.html |
+            | empty-business-network-out/queries.html      |
+            | empty-business-network-out/transactions.html |
         And The generated files do not have an image in the nav bar
         And The index page should contain the readme for the empty-business-network
         And The summary should contain 0 assets

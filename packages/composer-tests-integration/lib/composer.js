@@ -18,7 +18,8 @@ const AdminConnection = require('composer-admin').AdminConnection;
 const BusinessNetworkCardStore = require('composer-common').BusinessNetworkCardStore;
 const BusinessNetworkDefinition = require('composer-common').BusinessNetworkDefinition;
 const childProcess = require('child_process');
-const fs = require('fs');
+const glob = require('glob');
+const fs = require('fs-extra');
 const IdCard = require('composer-common').IdCard;
 const matchPattern = require('lodash-match-pattern');
 const net = require('net');
@@ -26,6 +27,7 @@ const path = require('path');
 const request = require('request-promise-any');
 const sleep = require('sleep-promise');
 const stripAnsi = require('strip-ansi');
+const util = require('util');
 
 let generated = false;
 
@@ -214,6 +216,10 @@ class Composer {
         }
     }
 
+    getScenarioDiectory() {
+        return this.aliasMap.get('SCENARIO_DIR');
+    }
+
     /**
      * Get all files recursively in a directoy
      * @param {String} dir directory to search
@@ -235,12 +241,72 @@ class Composer {
     }
 
     /**
+     * Ensure that the provided list of files exists in the scenario tmp dir
+     * @param {DataTable} table -  DataTable listing the items expeted to exist
+     * @return {Promise} - Promise that will be resolved or rejected with an error
+     */
+    ensureAvailable(table) {
+        const rows = table.raw();
+        const fileCopyResults = rows.map((row) => {
+            let srcPath = path.resolve(__dirname, row[0]);
+            let destPath = path.resolve(this.aliasMap.get('SCENARIO_DIR'), path.basename(srcPath));
+
+            return fs.copy(srcPath, destPath);
+        });
+
+        return Promise.all(fileCopyResults);
+    }
+
+    /**
+     * Check that the provided list of files exist in the scenario temp directory
+     * @param {integer} expectedCount - the number of files that should exist
+     * @param {DataTable} table - DataTable listing the files expected to exist and an optional alias to save the filepath if it exists
+     * @return {Promise} - Promise that will be resolved or rejected with an error
+     */
+    checkFilesExist(expectedCount, table) {
+        let actualCount = 0;
+        const globAsync = util.promisify(glob);
+        const globOptions = {
+            cwd: this.aliasMap.get('SCENARIO_DIR'),
+            nodir: true
+        };
+
+        const rows = table.raw();
+        const missingFilesAsync = rows.map((row) => {
+            return globAsync(row[0], globOptions).then((files) => {
+                if (files.length === 0) {
+                    return row[0];
+                } else {
+                    actualCount += files.length;
+                    if (row[1]) {
+                        // Currently only support an alias for the first file matched by a glob
+                        const filepath = path.resolve(globOptions.cwd, files[0]);
+                        this.aliasMap.set(row[1], filepath);
+                    }
+                }
+            });
+        });
+
+        return Promise.all(missingFilesAsync).then((results) => {
+            const missingFiles = results.filter((name) => name);
+
+            const filenames = missingFiles.join(', ');
+            if (missingFiles.length > 0) {
+                return Promise.reject(`Could not find ${missingFiles.length} files: ${filenames}`);
+            } else if (expectedCount && (expectedCount !== actualCount)) {
+                return Promise.reject(`Found ${actualCount} files but expected ${expectedCount}`);
+            }
+        });
+    }
+
+    /**
      * Check that the provided list of items (files or folders) exist
      * @param {String} type -  type (folder or file) that is being considered
      * @param {DataTable} table -  DataTable listing the items expeted to exist
      * @return {Promise} - Promise that will be resolved or rejected with an error
      */
     checkExists(type, table) {
+        // TODO urg, is __dirname good enough, or would a specific test dir be better?
         const rows = table.raw();
         let missing = rows.filter((row) => {
             let itemPath = path.resolve(__dirname, row[0]);
@@ -263,10 +329,17 @@ class Composer {
     checkExistsStrict(folder, table) {
         const passedFiles = table.raw();
 
+        // TODO stop hacking!
+        if(folder === 'SCENARIO_DIR') {
+            folder = this.aliasMap.get('SCENARIO_DIR');
+        } else {
+            path.resolve(__dirname,folder);
+        }
+
         // Make sure all paths are accounted for
         const expectedFiles = [];
         for (let file of passedFiles) {
-            expectedFiles.push(path.resolve(__dirname,folder,file.toString()));
+            expectedFiles.push(path.resolve(folder,file.toString()));
         }
 
         // get all files
@@ -422,10 +495,17 @@ class Composer {
         if (typeof cmd !== 'string') {
             return Promise.reject('Command passed to function was not a string');
         } else {
+            let scenarioDir;
+            if (this.aliasMap.has('SCENARIO_DIR')) {
+                scenarioDir = this.aliasMap.get('SCENARIO_DIR');
+            } else {
+                return Promise.reject('No scenario directory');
+            }
+
             let command = cmd;
             let stdout = '';
             let stderr = '';
-            let env = process.env;
+            let env = Object.create( process.env );
             if (this.jsonConfig){
                 env.NODE_CONFIG=this.jsonConfig;
             } else {
@@ -433,8 +513,11 @@ class Composer {
             }
 
             return new Promise( (resolve, reject) => {
-
-                let childCliProcess = childProcess.exec(command,{env});
+                const options = {
+                    cwd: scenarioDir,
+                    env: env
+                };
+                let childCliProcess = childProcess.exec(command, options);
 
                 childCliProcess.stdout.setEncoding('utf8');
                 childCliProcess.stderr.setEncoding('utf8');
@@ -621,27 +704,6 @@ class Composer {
                 } else {
                     reject(`Regex match on ${type} text block failed.\nExpected: ${utf8Text}\nActual: ${this.lastResp[type]}`);
                 }
-            }
-        });
-    }
-
-    /**
-     * Check that a file with a name matching the regex has been created.
-     * @param {RegExp} [regex] regular expression.
-     * @return {Promise} - Promise that will be resolved or rejected with an error
-     */
-    checkFileWasCreated(regex) {
-        return new Promise( (resolve, reject) => {
-            let fileExists = false;
-            fs.readdirSync('.').forEach((file) => {
-                if(file.match(regex)) {
-                    fileExists = true;
-                }
-            });
-            if(fileExists) {
-                resolve();
-            } else {
-                reject('could not find file with name matching ', regex);
             }
         });
     }

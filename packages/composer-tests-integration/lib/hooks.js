@@ -14,6 +14,11 @@
 
 'use strict';
 
+const fs = require('fs');
+const os = require('os');
+const { sep } = require('path');
+const util = require('util');
+
 const Composer = require('./composer');
 
 module.exports = function () {
@@ -22,12 +27,20 @@ module.exports = function () {
     let aliasMap = new Map();
 
     this.Before(function (scenarioResult) {
-        const uri = scenarioResult.scenario.uri;
-        const errorExpected = scenarioResult.scenario.steps.some((step) => {
-            return !!step.name.match(/^I should get an error/);
+
+        // Let's use a clean temporary directory for each scenario
+        const mkdtemp = util.promisify(fs.mkdtemp);
+        const tmpDir = os.tmpdir();
+
+        return mkdtemp(`${tmpDir}${sep}`).then((scenarioDir) => {
+            aliasMap.set('SCENARIO_DIR', scenarioDir);
+
+            const uri = scenarioResult.scenario.uri;
+            const errorExpected = scenarioResult.scenario.steps.some((step) => {
+                return !!step.name.match(/^I should get an error/);
+            });
+            this.composer = new Composer(uri, errorExpected, tasks, busnets, aliasMap);
         });
-        this.composer = new Composer(uri, errorExpected, tasks, busnets, aliasMap);
-        return Promise.resolve();
     });
 
     this.After(function () {

@@ -24,10 +24,6 @@ module.exports = function () {
         return this.composer.setCardStore(type);
     });
 
-    this.Given(/^I have the following (.+?)$/, function (type, table) {
-        return this.composer.checkExists(type, table);
-    });
-
     this.Given(/^Folder (.+?) should only contain the following files/, function (folder, table) {
         return this.composer.checkExistsStrict(folder, table);
     });
@@ -44,12 +40,24 @@ module.exports = function () {
         await this.composer.deployBusinessNetworkArchive(name);
     });
 
+    // TODO delete me!
     this.When(/^I run the following expected (.*?) CLI command/, {timeout: 240 * 1000}, function (condition, table) {
         let pass = condition === 'pass' ? true : false;
         return this.composer.runCLI(pass, table);
     });
 
+    this.When(/^I run the following CLI command,? which should (pass|fail?)/, {timeout: 240 * 1000}, function (condition, table) {
+        let pass = condition === 'pass' ? true : false;
+        return this.composer.runCLI(pass, table);
+    });
+
+    // TODO delete me!
     this.When(/^I substitue the alias (.*?) and run an expected (.*?) CLI command$/, {timeout: 240 * 1000}, function (alias, pass, table) {
+        return this.composer.runCLIWithAlias(alias, pass, table);
+    });
+
+    this.When(/^I run the following CLI command using the alias (.*?),? which should (pass|fail?)$/, {timeout: 240 * 1000}, function (alias, condition, table) {
+        let pass = condition === 'pass' ? true : false;
         return this.composer.runCLIWithAlias(alias, pass, table);
     });
 
@@ -87,9 +95,5 @@ module.exports = function () {
 
     this.Then(/^The stdout information should strictly contain the following text block/, function (text) {
         return this.composer.checkTextBlock(text, false);
-    });
-
-    this.Then(/^A new file matching this regex should be created \/(.+?)\/$/, function (match) {
-        return this.composer.checkFileWasCreated(match);
     });
 };

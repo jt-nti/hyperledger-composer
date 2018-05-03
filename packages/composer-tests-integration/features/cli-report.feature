@@ -15,23 +15,21 @@
 @cli @cli-report
 Feature: CLI report steps
 
-    Background:
-        Given I have admin business cards available
-
     Scenario: Using the CLI, I should get an error if I try and provide any command line arguments
-    When I run the following expected fail CLI command
+    When I run the following CLI command, which should fail
         """
         composer report -idonotknowwhatiamdoing
         """
     Then The stderr information should include text matching /Unknown arguments/
 
     Scenario: Using the CLI, I can run a composer report command to create a file about the current environment
-        When I run the following expected pass CLI command
+        When I run the following CLI command, which should pass
             """
             composer report
             """
         Then The stdout information should include text matching /Creating Composer report/
-        Then The stdout information should include text matching /Collecting diagnostic data.../
-        Then The stdout information should include text matching /Created archive file: composer-report-/
-        Then The stdout information should include text matching /Command succeeded/
-        Then A new file matching this regex should be created /composer-report-/
+        And The stdout information should include text matching /Collecting diagnostic data.../
+        And The stdout information should include text matching /Created archive file: composer-report-/
+        And The stdout information should include text matching /Command succeeded/
+        And The following 1 file should exist
+            | composer-report-*.tgz | TARBALL |

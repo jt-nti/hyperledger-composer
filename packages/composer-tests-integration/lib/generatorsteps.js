@@ -23,8 +23,8 @@ const expectedFiles = ['acls.html', 'assets.html', 'class.html', 'enums.html', '
 let outputFolder = null;
 
 module.exports = function () {
-    this.Given(/The generated output is to be placed in/, (folder) => {
-        outputFolder = path.join(__dirname, '..', folder);
+    this.Given(/The generated output is to be placed in/, function (folder) {
+        outputFolder = path.join(this.composer.getScenarioDiectory(), folder);
     });
 
     this.Then(/The generated files do not have an image in the nav bar/, () => {
