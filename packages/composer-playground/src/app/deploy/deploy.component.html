@@ -147,7 +147,7 @@
                 <h3>You must provide credentials in one of the following formats before you deploy this business
                     network</h3>
                 <p>The credentials will be used to access the business network once it is deployed</p>
-                <credentials (credentials)="updateCredentials($event)"></credentials>
+                <credentials [enrollDefaults]="true" [allowCerts]="false" (credentials)="updateCredentials($event)"></credentials>
             </div>
         </div>
     </section>

@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Component, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { AlertService } from '../../basic-modals/alert.service';
 
 @Component({
@@ -22,6 +22,12 @@ import { AlertService } from '../../basic-modals/alert.service';
 
 export class CredentialsComponent implements AfterViewInit {
 
+    @Input()
+    enrollDefaults: boolean = false;
+
+    @Input()
+    allowCerts: boolean = true;
+
     @Output() credentials = new EventEmitter<any>();
 
     @ViewChild('credentialsForm') credentialsForm;
@@ -31,6 +37,8 @@ export class CredentialsComponent implements AfterViewInit {
     private userId: string = null;
     private userSecret: string = null;
     private useCerts: boolean = true;
+    private useCert: boolean = this.allowCerts;
+    private noCert: boolean = !this.allowCerts;
     private addedPublicCertificate: string;
     private addedPrivateCertificate: string;
 
